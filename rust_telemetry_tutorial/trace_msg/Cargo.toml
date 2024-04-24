@@ -1,0 +1,22 @@
+[package]
+name = "trace_msg"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { workspace = true }
+tonic = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+opentelemetry_sdk = { workspace = true }
+opentelemetry-otlp = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+opentelemetry = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+
+[build-dependencies]
+tonic-build = { version = "0.11.0" }
