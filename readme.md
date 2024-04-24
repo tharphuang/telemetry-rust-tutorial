@@ -11,8 +11,23 @@
 ## connecter
 ![](./doc/connecter.jpg)
 
+## 运行
+默认执行路径为当前项目下
+1. 运行测试环境
+```
+docker-compose up -d
+...
+```
+2. 执行测试程序
+注：这里执行rust 程序需要切换到rust_telemetry_tutorial目录下
+```
+cd rust_telemetry_tutorial
+cargo run run src/main.rs
+```
+3. 执行结果
+![](./doc/result.png)
 
-参考:
+## 参考:  
 [tracing](https://github.com/tokio-rs/tracing)  
 [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector)  
 [exampleconnector](https://github.com/gord02/exampleconnector)
