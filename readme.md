@@ -19,7 +19,7 @@ docker-compose up -d
 ...
 ```
 2. 执行测试程序  
-注：这里执行rust 程序需要切换到rust_telemetry_tutorial目录下
+注:这里执行rust 程序需要切换到rust_telemetry_tutorial目录下
 ```
 cd rust_telemetry_tutorial
 cargo run run src/main.rs

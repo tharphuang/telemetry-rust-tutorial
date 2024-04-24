@@ -1,4 +1,5 @@
 .vscode
+*.DS_Store
 rust_telemetry_tutorial/target
 rust_telemetry_tutorial/Cargo.lock
 otel_connector/go.sum
