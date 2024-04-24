@@ -1,2 +1,4 @@
+.vscode
 rust_telemetry_tutorial/target
-*Cargo.lock
+rust_telemetry_tutorial/Cargo.lock
+otel_connector/go.sum
