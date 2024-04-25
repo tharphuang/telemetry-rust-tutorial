@@ -24,7 +24,8 @@ docker-compose up -d
 cd rust_telemetry_tutorial
 cargo run run src/main.rs
 ```
-3. 执行结果
+3. 执行结果  
+访问jaeger地址: http://127.0.0.1:16686/
 ![](./doc/result.png)
 
 ## exampl
