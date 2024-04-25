@@ -29,7 +29,7 @@ cargo run run src/main.rs
 
 ## exampl
 rust 示例代码位于 rust_telemetry_tutorial/example/src 下 main.rs
-```
+```rust 
 use trace_msg::custom_tracer::{close_trace, init_tracer, TracerConfig};
 
 fn main() {
