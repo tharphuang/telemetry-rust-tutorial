@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use trace_msg::custom_span::SpanInterface;
-use trace_msg::custom_tracer::{close_trace, init_tracer, TracerConfig};
+use trace_msg::custom_tracer::{close_tracer, init_tracer, TracerConfig};
 use trace_msg::new_custom_span;
 use tracing::Level;
 mod msg;
@@ -20,7 +20,7 @@ fn main() {
     write();
     //third_part::some_func(2);
 
-    close_trace();
+    close_tracer();
 }
 
 async fn async_put_callback(ctx: opentelemetry::Context) {

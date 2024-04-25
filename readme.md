@@ -27,6 +27,51 @@ cargo run run src/main.rs
 3. 执行结果
 ![](./doc/result.png)
 
+## exampl
+rust 示例代码位于 rust_telemetry_tutorial/example/src 下 main.rs
+```
+use trace_msg::custom_tracer::{close_trace, init_tracer, TracerConfig};
+
+fn main() {
+    // tracer 初始化默认使用Runtime::tokio, 进行批量发送
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+    let multi_runtime = Arc::new(rt);
+
+    // init tracer
+    let trace_cfg = TracerConfig::default();
+    init_tracer(trace_cfg, multi_runtime.clone());
+
+    // 创建一个span (root)
+    let span1 = new_custom_span!("span_1");
+
+    // 获取一个span的context，用来传递给其下游的span
+    let span1_ctx = span.get_context();
+
+    // 创建一个span,从指定的上游span_ctx 派生
+    let span2 = new_custom_span!("span_1").with_context(span1_ctx);
+
+    // 为span添加属性字段,(key[&str], value[&struct<T: ?Sized + serde::Serialize>])
+    #[derive(serde::Deserialize, serde::Serialize)]
+    struct TestMsg {
+        msg: String,
+    }
+    let test_msg = TestMsg {
+        msg: String::from("msg"),
+    };
+    span2.set_event("key",&test_msg);
+
+    // 退出span
+    span2.close();
+    span1.close();
+
+    // 关闭tracer
+    close_tracer();
+}
+```
+
 ## 参考:  
 [tracing](https://github.com/tokio-rs/tracing)  
 [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-collector)  

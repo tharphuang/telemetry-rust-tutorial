@@ -77,7 +77,7 @@ pub fn init_tracer(cfg: TracerConfig, multi_runtime: Arc<Runtime>) {
         .expect("Failed to register tracer with registry");
 }
 
-pub fn close_trace() {
+pub fn close_tracer() {
     // 关闭全局 provider
     global::shutdown_tracer_provider();
 }
