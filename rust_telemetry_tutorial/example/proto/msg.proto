@@ -3,48 +3,21 @@ syntax = "proto3";
 package msg;
 
 enum MessageType{
-    BackendPutDataMsg = 0;
-    BackendGetDataMsg = 1;
-    CreateInoMsg = 2;
-    UpdateSegsMsg = 3;
-    DeleteFileMsg = 4;
+    FuncMsg = 0;
+    CallbackMsg = 1;
 }
 
 // backend
-message BackendPutData{
+message Func{
     string host = 1; 
-    string fs_id = 2;
-    string obj_key = 3;
-    int32 cost_time = 4;
+    string func_name = 2;
+    string arg = 3;
+    int64 cost_time = 4;
 }
 
-message BackendGetData {
+message Callback {
     string host = 1; 
-    string fs_id = 2;
-    string obj_key = 3;
-    int32 cost_time = 4;
-}
-
-// meta
-message CreateIno{
-    string host =1;
-    string fs_id =2;
-    string parent_ino = 4;
-    string name = 5;
-    int32 cost_time = 6;
-}
-
-message UpdateSegs{
-    string host =1;
-    string fs_id =2;
-    string ino = 3;
-    int32 cost_time = 5;
-}
-
-message DeleteFile{
-    string host =1;
-    string fs_id =2;
-    string ino = 4;
-    string name = 5;
-    int32 cost_time = 6;
+    string calllback = 2;
+    string arg = 3;
+    int64 cost_time = 4;
 }

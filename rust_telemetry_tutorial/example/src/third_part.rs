@@ -1,18 +1,23 @@
-#[tracing::instrument]
+use std::{thread::sleep, time::Duration};
+use trace_msg::{
+    custom_span::{new, new_with_ctx, CustomContext, Interface},
+    new_span,
+};
+
 pub(crate) fn some_func(arg: i32) -> i32 {
+    let mut span = new_span!("", "spme func");
+    let ctx = span.get_ctx();
     for idx in 0..arg {
-        tracing::info!(
-            name = "third_part::some_func",
-            func_step = idx + 1,
-            "third_part_func running in step :{}",
-            idx+1
-        );
-        some_func_next();
+        some_func_next(ctx.clone(), idx);
     }
+    span.set_attribute("arg", arg.to_string());
+    span.close();
     arg
 }
 
-#[tracing::instrument]
-fn some_func_next() {
-    tracing::warn!(name = "third_part::some_func_next")
+fn some_func_next(ctx: CustomContext, i: i32) {
+    let mut span = new_span!("", "some_func_next", ctx);
+    sleep(Duration::from_millis(50));
+    span.set_attribute("arg", i.to_string());
+    span.close();
 }

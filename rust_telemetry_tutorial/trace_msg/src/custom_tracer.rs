@@ -8,10 +8,10 @@ use opentelemetry_sdk::{
 };
 use tokio::runtime::Runtime;
 use tonic::{Request, Status};
-use tracing_subscriber::{self, prelude::*};
 
 #[derive(Debug, Clone)]
 pub struct TracerConfig {
+    pub name: String,
     pub endpoint: String,
     pub trace_ratio: f64,
     pub time_out: u64,
@@ -20,7 +20,8 @@ pub struct TracerConfig {
 impl TracerConfig {
     pub fn default() -> TracerConfig {
         TracerConfig {
-            endpoint: "http://0.0.0.0:4333".to_owned(),
+            name: "test".to_owned(),
+            endpoint: "http://127.0.0.1:4333".to_owned(),
             trace_ratio: 1.0,
             time_out: 5,
         }
@@ -48,7 +49,7 @@ pub fn init_tracer(cfg: TracerConfig, multi_runtime: Arc<Runtime>) {
             .with_exporter(
                 opentelemetry_otlp::new_exporter()
                     .tonic()
-                    .with_endpoint(cfg.endpoint)
+                    .with_endpoint(cfg.endpoint.as_str())
                     .with_interceptor(auth_interceptor)
                     .with_timeout(Duration::from_secs(cfg.time_out)),
             )
@@ -59,7 +60,7 @@ pub fn init_tracer(cfg: TracerConfig, multi_runtime: Arc<Runtime>) {
                     .with_max_events_per_span(64)
                     .with_max_attributes_per_span(16)
                     .with_max_events_per_span(16)
-                    .with_resource(Resource::new(vec![KeyValue::new("service.name", "yigfs")])),
+                    .with_resource(Resource::new(vec![KeyValue::new("service.name", cfg.name)])),
             )
             .install_batch(opentelemetry_sdk::runtime::Tokio)
             .expect("init trace failed");
@@ -70,11 +71,11 @@ pub fn init_tracer(cfg: TracerConfig, multi_runtime: Arc<Runtime>) {
     let provider = tracer.clone().provider().unwrap();
     global::set_tracer_provider(provider);
 
-    tracing_subscriber::registry()
-        .with(tracing_subscriber::EnvFilter::new("INFO"))
-        .with(tracing_opentelemetry::layer().with_tracer(tracer))
-        .try_init()
-        .expect("Failed to register tracer with registry");
+    // tracing_subscriber::registry()
+    //     .with(tracing_subscriber::EnvFilter::new("INFO"))
+    //     .with(fmt::layer())
+    //     .with(tracing_opentelemetry::layer().with_tracer(tracer))
+    //     .init();
 }
 
 pub fn close_tracer() {

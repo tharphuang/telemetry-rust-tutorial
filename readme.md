@@ -14,15 +14,15 @@
 ## 运行
 默认执行路径为当前项目下
 1. 运行测试环境
-```
+```shell
 docker-compose up -d
 ...
 ```
 2. 执行测试程序  
 注:这里执行rust 程序需要切换到rust_telemetry_tutorial目录下
-```
+```shell
 cd rust_telemetry_tutorial
-cargo run run src/main.rs
+cargo run src/main.rs
 ```
 3. 执行结果  
 访问jaeger地址: http://127.0.0.1:16686/
@@ -31,7 +31,11 @@ cargo run run src/main.rs
 ## exampl
 rust 示例代码位于 rust_telemetry_tutorial/example/src 下 main.rs
 ```rust 
-use trace_msg::custom_tracer::{close_trace, init_tracer, TracerConfig};
+use trace_msg::{
+    custom_span::{CustomContext, Interface},
+    custom_tracer::{close_tracer, init_tracer, TracerConfig},
+    new_span,
+};
 
 fn main() {
     // tracer 初始化默认使用Runtime::tokio, 进行批量发送
@@ -46,13 +50,13 @@ fn main() {
     init_tracer(trace_cfg, multi_runtime.clone());
 
     // 创建一个span (root)
-    let span1 = new_custom_span!("span_1");
+    let span1 = new_span!("span_1");
 
     // 获取一个span的context，用来传递给其下游的span
-    let span1_ctx = span.get_context();
+    let span1_ctx = span.get_ctx();
 
     // 创建一个span,从指定的上游span_ctx 派生
-    let span2 = new_custom_span!("span_1").with_context(span1_ctx);
+    let span2 = new_span!("span_1", span1_ctx);
 
     // 为span添加属性字段,(key[&str], value[&struct<T: ?Sized + serde::Serialize>])
     #[derive(serde::Deserialize, serde::Serialize)]
@@ -62,7 +66,7 @@ fn main() {
     let test_msg = TestMsg {
         msg: String::from("msg"),
     };
-    span2.set_event("key",&test_msg);
+    span2.set_custom_attribute("key", &test_msg);
 
     // 退出span
     span2.close();
