@@ -1,6 +1,6 @@
 use std::{thread::sleep, time::Duration};
 use trace_msg::{
-    custom_span::{new, new_with_ctx, CustomContext, Interface},
+    custom_span::{CustomContext, Interface},
     new_span,
 };
 
