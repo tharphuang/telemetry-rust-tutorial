@@ -14,9 +14,9 @@ import (
 	
 	forwardconnector "go.opentelemetry.io/collector/connector/forwardconnector"
 	"go.opentelemetry.io/collector/exporter"
-	loggingexporter "go.opentelemetry.io/collector/exporter/loggingexporter"
-	otlpexporter "go.opentelemetry.io/collector/exporter/otlpexporter"
-	otlphttpexporter "go.opentelemetry.io/collector/exporter/otlphttpexporter"
+	// loggingexporter "go.opentelemetry.io/collector/exporter/loggingexporter"
+	// otlpexporter "go.opentelemetry.io/collector/exporter/otlpexporter"
+	// otlphttpexporter "go.opentelemetry.io/collector/exporter/otlphttpexporter"
 	"go.opentelemetry.io/collector/extension"
 	
 	"go.opentelemetry.io/collector/otelcol"
@@ -25,8 +25,9 @@ import (
 	"go.opentelemetry.io/collector/receiver"
 	
 
-	debugexporter "go.opentelemetry.io/collector/exporter/debugexporter"
+	//debugexporter "go.opentelemetry.io/collector/exporter/debugexporter"
 	jaegerexporter "otel-connector/exporter/jaegerexporter"
+	elkexporter "otel-connector/exporter/elasticsearchexporter"
 
 	//prometheusexporter "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusexporter"
 	//zipkinexporter "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/zipkinexporter"
@@ -52,11 +53,12 @@ func components() (otelcol.Factories, error) {
 	}
 
 	factories.Exporters, err = exporter.MakeFactoryMap(
-		loggingexporter.NewFactory(),
-		otlpexporter.NewFactory(),
-		otlphttpexporter.NewFactory(),
-		debugexporter.NewFactory(),
+		//loggingexporter.NewFactory(),
+		//otlpexporter.NewFactory(),
+		//otlphttpexporter.NewFactory(),
+		//debugexporter.NewFactory(),
 		jaegerexporter.NewFactory(),
+		elkexporter.NewFactory(),
 		//prometheusexporter.NewFactory(),
 		//zipkinexporter.NewFactory(),
 	)
@@ -87,7 +89,6 @@ func run(params otelcol.CollectorSettings) error {
 }
 
 func main() {
-
 	info := component.BuildInfo{
 		Command:     "otelcontribcol",
 		Description: "Local OpenTelemetry Collector Contrib binary, testing only.",

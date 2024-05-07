@@ -11,25 +11,14 @@ receivers:
           authenticator: "tokenauth"
 
 exporters:
-  # prometheus:
-  #   endpoint: "127.0.0.1:8889"
-  #   const_labels:
-  #     label1: value1
-
-  logging:
-    verbosity: detailed
-
-  # zipkin:
-  #   endpoint: "http://127.0.0.1:9411/api/v2/spans"
-  #   format: proto
-
   jaeger:
-    endpoint: "jaeger:14250"
+    endpoint: "127.0.0.1:14250"
     tls:
       insecure: true
 
-  debug:
-    verbosity: detailed
+  elasticsearch:
+    endpoints: ["http://127.0.0.1:9200"]
+    traces_index: trace_index
 
 processors:
   batch:
@@ -47,8 +36,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, jaeger, debug]
-    # metrics:
-    #   receivers: [otlp]
-    #   processors: [batch]
-    #   exporters: [logging, prometheus]
+      exporters: [jaeger, elasticsearch]

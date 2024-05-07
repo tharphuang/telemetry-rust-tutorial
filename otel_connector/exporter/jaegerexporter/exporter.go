@@ -83,11 +83,7 @@ type stateReporter interface {
 	GetState() connectivity.State
 }
 
-func (s *protoGRPCSender) pushTraces(
-	ctx context.Context,
-	td ptrace.Traces,
-) error {
-
+func (s *protoGRPCSender) pushTraces(ctx context.Context, td ptrace.Traces) error {
 	batches, err := jaeger.ProtoFromTraces(td)
 	if err != nil {
 		return consumererror.NewPermanent(fmt.Errorf("failed to push trace data via Jaeger exporter: %w", err))
