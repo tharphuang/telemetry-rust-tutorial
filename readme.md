@@ -19,7 +19,12 @@ docker-compose up -d
 ...
 ```
 2. 执行测试程序  
-注:这里执行rust 程序需要切换到rust_telemetry_tutorial目录下
+注:这里执行rust 程序需要切换到rust_telemetry_tutorial目录下  
+这里使用到了protobuf,需要先安装protobuf,下面是centos的安装实例，其它操作系统同理
+```shell 
+yum install protobuf-compiler
+```
+执行测试case  
 ```shell
 cd rust_telemetry_tutorial
 cargo run src/main.rs

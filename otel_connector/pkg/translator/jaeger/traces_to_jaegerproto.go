@@ -5,7 +5,6 @@ package jaeger // import "github.com/open-telemetry/opentelemetry-collector-cont
 
 import (
 	"encoding/base64"
-	"fmt"
 
 	"github.com/jaegertracing/jaeger/model"
 	"go.opentelemetry.io/collector/pdata/pcommon"
@@ -282,7 +281,7 @@ func spanEventsToJaegerProtoLogs(events ptrace.SpanEventSlice) []model.Log {
 	logs := make([]model.Log, 0, events.Len())
 	for i := 0; i < events.Len(); i++ {
 		event := events.At(i)
-		fmt.Println("event----->", event.Attributes().AsRaw())
+		//fmt.Println("event----->", event.Attributes().AsRaw())
 		fields := make([]model.KeyValue, 0, event.Attributes().Len()+1)
 		_, eventAttrFound := event.Attributes().Get(eventNameAttr)
 		if event.Name() != "" && !eventAttrFound {

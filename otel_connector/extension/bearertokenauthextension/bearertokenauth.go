@@ -161,7 +161,7 @@ func (b *BearerTokenAuth) Authenticate(ctx context.Context, headers map[string][
 	token := auth[0]
 	expect := b.tokenString
 	// TODO: head 校验
-	fmt.Println("-----> :", token, expect, b.scheme)
+	//fmt.Println("-----> :", token, expect, b.scheme)
 	// if len(b.scheme) != 0 {
 	// 	expect = fmt.Sprintf("%s %s", b.scheme, expect)
 	// }
